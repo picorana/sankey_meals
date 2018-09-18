@@ -1,0 +1,245 @@
+{
+    "nodes": [
+        {
+            "name": "Breakfast_very_high",
+            "color": "rgb(244,109,67)",
+            "level": "very_high",
+            "type": "Breakfast"
+        },
+        {
+            "name": "Lunch_very_high",
+            "color": "rgb(244,109,67)",
+            "level": "very_high",
+            "type": "Lunch"
+        },
+        {
+            "name": "PM_Snack_very_high",
+            "color": "rgb(244,109,67)",
+            "level": "very_high",
+            "type": "PM_Snack"
+        },
+        {
+            "name": "Dinner_very_high",
+            "color": "rgb(244,109,67)",
+            "level": "very_high",
+            "type": "Dinner"
+        },
+        {
+            "name": "AM_Snack_high",
+            "color": "rgb(253,174,97)",
+            "level": "high",
+            "type": "AM_Snack"
+        },
+        {
+            "name": "Breakfast_high",
+            "color": "rgb(253,174,97)",
+            "level": "high",
+            "type": "Breakfast"
+        },
+        {
+            "name": "PM_Snack_high",
+            "color": "rgb(253,174,97)",
+            "level": "high",
+            "type": "PM_Snack"
+        },
+        {
+            "name": "Dinner_high",
+            "color": "rgb(253,174,97)",
+            "level": "high",
+            "type": "Dinner"
+        },
+        {
+            "name": "Breakfast_normal",
+            "color": "rgb(254,224,144)",
+            "level": "normal",
+            "type": "Breakfast"
+        },
+        {
+            "name": "Lunch_high",
+            "color": "rgb(253,174,97)",
+            "level": "high",
+            "type": "Lunch"
+        },
+        {
+            "name": "Dinner_normal",
+            "color": "rgb(254,224,144)",
+            "level": "normal",
+            "type": "Dinner"
+        },
+        {
+            "name": "Lunch_normal",
+            "color": "rgb(254,224,144)",
+            "level": "normal",
+            "type": "Lunch"
+        },
+        {
+            "name": "AM_Snack_low",
+            "color": "rgb(171,217,233)",
+            "level": "low",
+            "type": "AM_Snack"
+        },
+        {
+            "name": "PM_Snack_normal",
+            "color": "rgb(254,224,144)",
+            "level": "normal",
+            "type": "PM_Snack"
+        },
+        {
+            "name": "AM_Snack_normal",
+            "color": "rgb(254,224,144)",
+            "level": "normal",
+            "type": "AM_Snack"
+        },
+        {
+            "name": "Breakfast_low",
+            "color": "rgb(171,217,233)",
+            "level": "low",
+            "type": "Breakfast"
+        },
+        {
+            "name": "Early_Snack_normal",
+            "color": "rgb(254,224,144)",
+            "level": "normal",
+            "type": "Early_Snack"
+        },
+        {
+            "name": "Lunch_low",
+            "color": "rgb(171,217,233)",
+            "level": "low",
+            "type": "Lunch"
+        },
+        {
+            "name": "Dinner_low",
+            "color": "rgb(171,217,233)",
+            "level": "low",
+            "type": "Dinner"
+        }
+    ],
+    "links": [
+        {
+            "source": 0,
+            "target": 1,
+            "value": 2
+        },
+        {
+            "source": 1,
+            "target": 2,
+            "value": 2
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "value": 1
+        },
+        {
+            "source": 0,
+            "target": 4,
+            "value": 1
+        },
+        {
+            "source": 4,
+            "target": 3,
+            "value": 1
+        },
+        {
+            "source": 5,
+            "target": 1,
+            "value": 2
+        },
+        {
+            "source": 1,
+            "target": 6,
+            "value": 1
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "value": 1
+        },
+        {
+            "source": 8,
+            "target": 1,
+            "value": 2
+        },
+        {
+            "source": 8,
+            "target": 9,
+            "value": 2
+        },
+        {
+            "source": 9,
+            "target": 2,
+            "value": 1
+        },
+        {
+            "source": 2,
+            "target": 10,
+            "value": 2
+        },
+        {
+            "source": 8,
+            "target": 11,
+            "value": 32
+        },
+        {
+            "source": 11,
+            "target": 2,
+            "value": 1
+        },
+        {
+            "source": 8,
+            "target": 12,
+            "value": 1
+        },
+        {
+            "source": 12,
+            "target": 11,
+            "value": 1
+        },
+        {
+            "source": 11,
+            "target": 13,
+            "value": 1
+        },
+        {
+            "source": 13,
+            "target": 7,
+            "value": 1
+        },
+        {
+            "source": 8,
+            "target": 14,
+            "value": 6
+        },
+        {
+            "source": 14,
+            "target": 7,
+            "value": 1
+        },
+        {
+            "source": 16,
+            "target": 8,
+            "value": 2
+        },
+        {
+            "source": 11,
+            "target": 10,
+            "value": 2
+        },
+        {
+            "source": 8,
+            "target": 17,
+            "value": 2
+        },
+        {
+            "source": 11,
+            "target": 18,
+            "value": 1
+        },
+        {
+            "source": 8,
+            "target": 10,
+            "value": 1
+        }
+    ]
+}
