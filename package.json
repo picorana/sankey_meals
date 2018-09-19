@@ -11,9 +11,14 @@
   "author": "Sara Di Bartolomeo",
   "license": "MIT",
   "devDependencies": {
+    "@types/csv-parse": "^1.1.11",
+    "@types/node": "^10.10.1",
+    "csv-parse": "^3.0.0",
     "d3-sankey": "^0.7.1",
+    "fs": "0.0.1-security",
     "gulp": "^3.9.1",
     "gulp-typescript": "^5.0.0-alpha.3",
+    "jsnetworkx": "^0.3.4",
     "typescript": "^3.0.3"
   }
 }
