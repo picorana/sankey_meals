@@ -139,7 +139,7 @@ def read_events():
             days_dict[date].append(row)
 
         useful_rows_count += 1
-        if useful_rows_count % 220 == 0: break
+        if useful_rows_count % 1000 == 0: break
 
 
     for day in days_dict:

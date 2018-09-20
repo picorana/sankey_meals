@@ -31,8 +31,19 @@ var node = svg
 
 var graph;
 
-d3.json("result.json", function(error, energy) {
+d3.json("result2.json", function(error, energy) {
   if (error) throw error;
+
+
+    var nodeMap = {};
+    energy.nodes.forEach(function(x) { nodeMap[x.id] = x; });
+    energy.links = energy.links.map(function(x) {
+      return {
+        source: nodeMap[x.source],
+        target: nodeMap[x.target],
+        value: x.value
+      };
+    });
 
   graph = sankey(energy);
 
@@ -110,7 +121,8 @@ d3.json("result.json", function(error, energy) {
   });
 
   //graph.nodes.forEach(function(node){node.x0 = 0; console.log(node)})
-  relayout();
+  merge_keystone(["Breakfast"]);
+  //relayout();
 });
 
 // the function for moving the nodes
@@ -129,6 +141,20 @@ function dragmove(d) {
   sankey.update(graph);
   link.attr("d", d3.sankeyLinkHorizontal());
 }
+
+
+function merge_keystone(keystone_list){
+    d3.selectAll("g").each(function(n, i){
+        if (this.__data__ != undefined && this.__data__.type == 'Breakfast') {
+            console.log(this)
+            this.remove()
+        };
+    })
+
+    sankey.update(graph);
+    link.attr("d", d3.sankeyLinkHorizontal());
+}
+
 
 function relayout() {
 

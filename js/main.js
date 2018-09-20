@@ -3,13 +3,16 @@ csvParse = require('csv-parse')
 jsnx = require('jsnetworkx')
 
 days = {}
-node_root = {}
-nodes = {}
-edges = {}
 G = new jsnx.Graph()
 
 keystone_events = ['Breakfast']
-
+color_map = {
+    very_low: 'rgb(69, 117, 180)',
+    low: 'rgb(171,217,233)',
+    normal: 'rgb(254,224,144)',
+    high: 'rgb(253,174,97)',
+    very_high: 'rgb(244,109,67)'
+}
 
 fs.createReadStream('data/event.csv') // I think this stream is not closing itself when it's done
     .pipe(csvParse())
@@ -37,32 +40,45 @@ function examine_data(){
     for (day in days) {
         examine_day(days[day]);
         count++;
-        if (count == 5) break;
+        //if (count == 4) break;
     }
 
-    console.log(G.nodes(true));
+
+    //merge_on_keystone_event(keystone_events);
+    save_to_json()
+    
+    //console.log(G.nodes(true));
     console.log(G.edges(true))
     console.log(G.nodes().length + " nodes found")
     console.log(G.edges().length + " edges found")
-
-    merge_on_keystone_event(keystone_events);
-    save_to_json()
 }
 
 
 function get_glucose_level(val){
-    if (val > 200) return 'high';
-    else if (val < 100) return 'low';
-    else return 'normal';
+    if (val < 54) return 'very_low';
+    else if (val < 70) return 'low';
+    else if (val < 180) return 'normal';
+    else if (val < 250) return 'high';
+    else return 'very_high';
 }
 
 
 function merge_on_keystone_event (keystone_events){
-    
-    for (keystone in keystone_events) {
+
+    for (k in keystone_events) {
         keystone_nodes = []
-        for (node in G.nodes()){
-            continue;
+        nodes_to_remove = []
+        G.addNode(k, {meal:keystone_events[k], glucose_level:'a', type: 'keystone_node'})
+        for (n in G.nodes(true)){
+            if (G.nodes(true)[n][1]['type'] == keystone_events[k]){
+                for (var i=0; i<jsnx.neighbors(G, G.nodes()[n]).length; i++){
+                    G.addEdge(k, jsnx.neighbors(G, G.nodes()[n])[i])
+                }
+            nodes_to_remove.push(G.nodes()[n])
+            }
+        }
+        for (n in nodes_to_remove){
+            G.removeNode(nodes_to_remove[n])
         }
     }
 
@@ -77,21 +93,26 @@ function save_to_json () {
 
     for (n in G.nodes(true)) {
         node = {
-            id : G.nodes(true)[n][0],
-            meal: G.nodes(true)[n][1]["meal"]
+            id : G.nodes(true)[n][0].toString(),
+            name: G.nodes(true)[n][1]["meal"],
+            meal: G.nodes(true)[n][1]["meal"] + "_" + G.nodes(true)[n][1]["glucose_level"],
+            type: G.nodes(true)[n][1]["type"],
+            level: G.nodes(true)[n][1]["glucose_level"],
+            color: color_map[G.nodes(true)[n][1]["glucose_level"]],
+            time: G.nodes(true)[n][1]["time"]
         }
         result.nodes.push(node)
     }
     for (e in G.edges(true)) {
         link = {
-            source: G.edges()[e][0],
-            target: G.edges()[e][1],
-            weight: 1
+            source: G.edges()[e][0].toString(),
+            target: G.edges()[e][1].toString(),
+            value: 1
         }
         result.links.push(link)
     }
 
-    fs.writeFile("test.json", JSON.stringify(result), function(err){
+    fs.writeFile("result2.json", JSON.stringify(result), function(err){
         if (err) {
             return console.log(err);
         }
@@ -121,7 +142,9 @@ function examine_day(day){
         G.addNode(
             node_id, {
                 meal:meal, 
-                glucose_level:glucose_level
+                type: meal,
+                glucose_level:glucose_level,
+                time: node_id
         })
     }
 
