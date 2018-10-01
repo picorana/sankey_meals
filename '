@@ -173,7 +173,6 @@ var draw = function(keystone_list = []) {
             n => n.type == k && n.level == g_level
           );
 
-          this_keystone_nodes.forEach(n => console.log(n))
           merge_node_set(energy, this_keystone_nodes, k, g_level, true, count)
           count ++
 
@@ -181,10 +180,10 @@ var draw = function(keystone_list = []) {
       });
     });
 
-    var dfs = function(node, relative_depth, absolute_depth, prev_type, seq_dict, distance_from_keystone){
+    var dfs = function(node, relative_depth, absolute_depth, prev_type, seq_dict){
         node.relative_depth = relative_depth
         node.absolute_depth = absolute_depth
-
+       
         if (node.type != prev_type){
             if (seq_dict[node.type] == undefined) seq_dict[node.type] = 0
             else seq_dict[node.type] += 1
@@ -201,32 +200,17 @@ var draw = function(keystone_list = []) {
         if (following_nodes.length == 0) return
 
         following_nodes.forEach(function(n){
-
-            if (keystone_list.indexOf(node.meal) != -1) {
-                // node is a keystone node
-                if (distance_from_keystone == undefined){
-                    distance_from_keystone = {}
-                }
-                distance_from_keystone[node.meal] = 0
-            } else if (distance_from_keystone != undefined){
-                for (elem in distance_from_keystone){
-                    distance_from_keystone[elem] += 1
-                }
-            }
-
-            node.distance_from_keystone = distance_from_keystone
-            
             if (n.type == node.type){
-                dfs(n, relative_depth+1, absolute_depth+1, node.type, seq_dict, distance_from_keystone)
+                dfs(n, relative_depth+1, absolute_depth+1, node.type, seq_dict)
             } else {
-                dfs(n, 0, absolute_depth+1, node.type, seq_dict, distance_from_keystone)
+                dfs(n, 0, absolute_depth+1, node.type, seq_dict)
             }
         })
     }
 
     if (! energy.nodes.some(node => node.absolute_depth != undefined)){
         leftmost_nodes = energy.nodes.filter(node => (energy.links.some(l => l.target == node.id)) ? false : true)
-        leftmost_nodes.forEach(function(node) {seq_dict = {}; dfs(node, 0, 0, null, seq_dict, undefined)})
+        leftmost_nodes.forEach(function(node) {seq_dict = {}; dfs(node, 0, 0, null, seq_dict)})
     }
 
     for (meal of possible_keystones){
@@ -346,69 +330,19 @@ var draw = function(keystone_list = []) {
     //graph.nodes.forEach(function(node){node.x0 = 0; console.log(node)})
     //merge_keystone(["Breakfast"]);
     //draw_squares(keystone_list);
-    //relayout3(energy)
-    //relayout4(energy)
-    //stack_rects(energy)
+    relayout3(energy)
   });
 };
-
-
-var stack_rects = function(energy){
-    d3.selectAll("text").remove()
-
-    for (l in energy.links){
-        l = energy.links[l]
-        if (l.source.type == l.target.type) {
-            l.target.x0 = l.source.x1
-            l.target.x1 = l.source.x1 + 10
-            l.target.y0 = l.source.y0
-            l.target.y1 = l.source.y1
-            d3.selectAll('rect').filter(function(r){return (r.id == l.target.id)}).attr("x", l.target.x0).attr("y", l.source.y0)
-        }
-    }
-
-    sankey.update(graph);
-    link.attr("d", d3.sankeyLinkHorizontal());
-}
-
-
-var relayout4 = function(energy){
-
-    d3.selectAll("text").remove()
-    
-    d3.selectAll('rect').each(function(r, i){
-        //if (keystone_list.indexOf(r.meal) != -1){
-            //r.x0 = width * (1 + keystone_list.indexOf(r.meal)) / (keystone_list.length + 1)
-            //r.x1 = width * (1 + keystone_list.indexOf(r.meal)) / (keystone_list.length + 1) + 10
-            //d3.select(this).attr("x", width * (1 + keystone_list.indexOf(r.meal)) /(keystone_list.length + 1))
-        //} else {
-            //if (r.distance_from_keystone == undefined){
-                //r.x0 = r.absolute_depth * 100
-                //r.x1 = r.absolute_depth * 100
-                //d3.select(this).attr("x", r.absolute_depth * 100)
-            //}
-            //else {
-                
-                //console.log(r.distance_from_keystone)
-                //r.x0 = 1000
-                //r.x1 = 1000
-                //d3.select(this).attr("x", r.distance_from_keystone['Lunch'] * 100 + 1000)
-            //}
-        //}})
-    })
-    
-    sankey.update(graph);
-    link.attr("d", d3.sankeyLinkHorizontal());
-}
 
 
 var relayout3 = function(energy){
 
     d3.selectAll('rect').each(function(r, i){
-        if (keystone_list.indexOf(r.meal) != -1){
-            r.x0 = width * (1 + keystone_list.indexOf(r.meal)) / (keystone_list.length + 1)
-            r.x1 = width * (1 + keystone_list.indexOf(r.meal)) / (keystone_list.length + 1) + 10
-            d3.select(this).attr("x", width * (1 + keystone_list.indexOf(r.meal)) /(keystone_list.length + 1))
+        if (r.type.indexOf("keystone")!=-1) console.log(r)
+        if (keystone_list.indexOf(r.type) != -1){
+            r.x0 = width / keystone_list.length
+            r.x1 = width / keystone_list.length + 10
+            d3.select(this).attr("x", width/keystone_list.length)
         }
     })
 
